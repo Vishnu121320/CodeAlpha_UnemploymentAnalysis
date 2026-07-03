@@ -3,18 +3,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 
-# -----------------------------
-# Create Graph Folder
-# -----------------------------
+
 os.makedirs("graphs", exist_ok=True)
 
-# -----------------------------
-# Load Datasets
-# -----------------------------
+
 df1 = pd.read_csv("Unemployment in India.csv")
 df2 = pd.read_csv("Unemployment_Rate_upto_11_2020.csv")
 
-# Remove extra spaces from column names
+
 df1.columns = df1.columns.str.strip()
 df2.columns = df2.columns.str.strip()
 
@@ -22,9 +18,7 @@ print("=" * 60)
 print("UNEMPLOYMENT ANALYSIS PROJECT")
 print("=" * 60)
 
-# -----------------------------
-# Dataset 1 Information
-# -----------------------------
+
 print("\nDATASET 1")
 print("-" * 40)
 
@@ -43,9 +37,7 @@ print(df1.isnull().sum())
 print("\nSummary Statistics")
 print(df1.describe())
 
-# -----------------------------
-# Dataset 2 Information
-# -----------------------------
+
 print("\nDATASET 2")
 print("-" * 40)
 
@@ -64,16 +56,11 @@ print(df2.isnull().sum())
 print("\nSummary Statistics")
 print(df2.describe())
 
-# -----------------------------
-# Convert Date Columns
-# -----------------------------
+
 df1["Date"] = pd.to_datetime(df1["Date"], dayfirst=True)
 df2["Date"] = pd.to_datetime(df2["Date"], dayfirst=True)
 
-# -----------------------------
-# GRAPH 1
-# Distribution
-# -----------------------------
+
 plt.figure(figsize=(8,5))
 sns.histplot(df1["Estimated Unemployment Rate (%)"],
              bins=20,
@@ -83,10 +70,7 @@ plt.title("Distribution of Unemployment Rate")
 plt.savefig("graphs/unemployment_distribution.png")
 plt.close()
 
-# -----------------------------
-# GRAPH 2
-# State Wise Average
-# -----------------------------
+
 plt.figure(figsize=(12,8))
 
 state_avg = df1.groupby("Region")["Estimated Unemployment Rate (%)"].mean().sort_values()
@@ -100,10 +84,7 @@ plt.tight_layout()
 plt.savefig("graphs/statewise_unemployment.png")
 plt.close()
 
-# -----------------------------
-# GRAPH 3
-# Rural vs Urban
-# -----------------------------
+
 plt.figure(figsize=(7,5))
 
 sns.boxplot(
@@ -117,10 +98,7 @@ plt.title("Rural vs Urban Unemployment")
 plt.savefig("graphs/rural_vs_urban.png")
 plt.close()
 
-# -----------------------------
-# GRAPH 4
-# Monthly Trend
-# -----------------------------
+
 monthly = df1.groupby("Date")["Estimated Unemployment Rate (%)"].mean()
 
 plt.figure(figsize=(12,5))
@@ -139,10 +117,7 @@ plt.grid()
 plt.savefig("graphs/monthly_trend.png")
 plt.close()
 
-# -----------------------------
-# GRAPH 5
-# Covid Impact
-# -----------------------------
+
 covid = df1[df1["Date"] >= "2020-03-01"]
 
 monthly2 = covid.groupby("Date")["Estimated Unemployment Rate (%)"].mean()
@@ -161,10 +136,7 @@ plt.grid()
 plt.savefig("graphs/covid_impact.png")
 plt.close()
 
-# -----------------------------
-# GRAPH 6
-# Region Analysis
-# -----------------------------
+
 plt.figure(figsize=(8,6))
 
 region_avg = df2.groupby("Region")["Estimated Unemployment Rate (%)"].mean()
@@ -180,10 +152,7 @@ plt.tight_layout()
 plt.savefig("graphs/regional_analysis.png")
 plt.close()
 
-# -----------------------------
-# GRAPH 7
-# Correlation Heatmap
-# -----------------------------
+
 plt.figure(figsize=(7,6))
 
 corr = df2.select_dtypes(include="number").corr()
@@ -199,10 +168,7 @@ plt.title("Correlation Heatmap")
 plt.savefig("graphs/correlation_heatmap.png")
 plt.close()
 
-# -----------------------------
-# GRAPH 8
-# Box Plot
-# -----------------------------
+
 plt.figure(figsize=(8,5))
 
 sns.boxplot(
@@ -215,10 +181,7 @@ plt.title("Box Plot of Unemployment Rate")
 plt.savefig("graphs/boxplot.png")
 plt.close()
 
-# -----------------------------
-# GRAPH 9
-# Top 10 States
-# -----------------------------
+
 top10 = state_avg.sort_values(ascending=False).head(10)
 
 plt.figure(figsize=(10,6))
@@ -236,9 +199,7 @@ plt.tight_layout()
 plt.savefig("graphs/top10_states.png")
 plt.close()
 
-# -----------------------------
-# Insights
-# -----------------------------
+
 highest_state = state_avg.idxmax()
 lowest_state = state_avg.idxmin()
 
